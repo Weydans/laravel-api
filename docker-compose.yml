@@ -19,3 +19,21 @@ services:
       - 8080:80
     networks:
       - app-lan
+  
+  # Servidor de aplicação
+  app:
+    build:
+      args:
+        user: weydans
+        uid: 1000
+      context: ./docker/php/
+      dockerfile: Dockerfile
+    container_name: app
+    image: php-fpm
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - app-lan
+      - db-lan
