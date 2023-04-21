@@ -17,8 +17,13 @@ services:
     restart: unless-stopped
     ports:
       - 8080:80
+    volumes:
+      - ./public:/var/www/public
+      - ./docker/nginx:/etc/nginx/conf.d
     networks:
       - app-lan
+    depends_on:
+      - app
   
   # Servidor de aplicação
   app:
