@@ -9,6 +9,13 @@ build: down install run
 	docker-compose exec app php artisan migrate
 	sudo docker-compose ps -a
 
+dev: down install run
+	docker-compose exec app composer install
+	docker-compose exec app php artisan optimize:clear
+	docker-compose exec app php artisan migrate
+	sudo docker-compose ps -a
+
+
 install:
 	ls .data || mkdir .data
 	ls .env || cp .env.example .env
