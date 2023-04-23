@@ -81,7 +81,7 @@ class ExpenseController extends Controller
             if ( empty( $expense ) ) {
                 return response()->json(['error' => 'Not found'], 404);
             }
-            
+
             if ( Auth::user()->cannot('update', $expense) ) {
                 return response()->json(['error' => 'Forbiden'], 403);
             }
@@ -110,7 +110,7 @@ class ExpenseController extends Controller
             if ( empty( $expense ) ) {
                 return response()->json(['error' => 'Not found'], 404);
             }
-
+            
             if ( Auth::user()->cannot('view', $expense) ) {
                 return response()->json(['error' => 'Forbiden'], 403);
             }
