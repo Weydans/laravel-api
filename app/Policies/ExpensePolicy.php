@@ -9,14 +9,6 @@ use Illuminate\Auth\Access\Response;
 class ExpensePolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Expense $expense): bool
@@ -46,21 +38,5 @@ class ExpensePolicy
     public function delete(User $user, Expense $expense): bool
     {
         return $user->id == $expense->user_id;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Expense $expense): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Expense $expense): bool
-    {
-        //
     }
 }

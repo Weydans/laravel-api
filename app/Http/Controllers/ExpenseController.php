@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Notifications\ExpenseCreatedNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\ExpenseResource;
 
 class ExpenseController extends Controller
 {
@@ -18,7 +19,7 @@ class ExpenseController extends Controller
         try {
             $user = Auth::user();
 
-            return response()->json($user->expenses, 200);
+            return ExpenseResource::collection($user->expenses);
 
         } catch (Exception $e) {
             return response()->json(['error' => 'Something went wrong'], 500);
@@ -38,11 +39,11 @@ class ExpenseController extends Controller
 
             $expense->save();
             
-            Notification::send(Auth::user(), new ExpenseCreatedNotification($expense));
+            Notification::send( Auth::user(), new ExpenseCreatedNotification($expense) );
             
             DB::commit();
             
-            return response()->json($expense, 201);
+            return new ExpenseResource($expense);
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -64,7 +65,7 @@ class ExpenseController extends Controller
                 return response()->json(['error' => 'Forbiden'], 403);
             }
 
-            return response()->json($expense, 200);
+            return new ExpenseResource($expense);
 
         } catch (Exception $e) {
             return response()->json(['error' => 'Something went wrong'], 500);
@@ -91,7 +92,7 @@ class ExpenseController extends Controller
 
             DB::commit();
 
-            return response()->json($expense, 200);
+            return new ExpenseResource($expense);
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -110,7 +111,7 @@ class ExpenseController extends Controller
             if ( empty( $expense ) ) {
                 return response()->json(['error' => 'Not found'], 404);
             }
-            
+
             if ( Auth::user()->cannot('view', $expense) ) {
                 return response()->json(['error' => 'Forbiden'], 403);
             }

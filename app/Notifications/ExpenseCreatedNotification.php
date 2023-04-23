@@ -41,8 +41,8 @@ class ExpenseCreatedNotification extends Notification implements ShouldQueue
                     ->greeting("Hello, {$this->expense->user->name}")
                     ->line('')
                     ->line("Description: {$this->expense->description}")
-                    ->line("Date: {$this->expense->date}")
-                    ->line("Value: {$this->expense->value}")
+                    ->line("Date: " . date('d/m/Y', strtotime($this->expense->date)))
+                    ->line("Value: R$ " . number_format($this->expense->value, 2, ',', '.'))
                     ->line('')
                     ->line('Thank you for using our application!');
     }
