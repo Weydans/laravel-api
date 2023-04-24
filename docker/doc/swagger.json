@@ -1,0 +1,336 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "0.1.0",
+      "title": "Laravel API",
+      "description": "API developed for the employee expense management system such as travel, accommodation, etc.",
+      "contact": {
+        "name": "Weydans Barros",
+        "email": "weydans@hotmail.com",
+        "url": "https://www.linkedin.com/in/weydans-barros-3bb71747/"
+      },
+      "license": {
+        "name": "MIT",
+        "url": "http://opensource.org/licenses/MIT"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/api/v0/",
+        "description": "API root path"
+      }
+    ],
+    "paths": {
+      "/login": {
+        "post": {
+          "summary": "return auth token to access app",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string",
+                      "format": "password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "example": "Authentication failed"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Login"
+          ]
+        }
+      },
+      "/expenses": {
+        "get": {
+          "summary": "Recover all expenses related to the current user",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Expenses"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "auth": []
+            }
+          ],
+          "tags": [
+            "Expenses"
+          ]
+        },
+        "post": {
+          "summary": "Create a new expense",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user_id": {
+                      "type": "integer"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Expense"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "auth": []
+            }
+          ],
+          "tags": [
+            "Expenses"
+          ]
+        }
+      },
+      "/expenses/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "get": {
+          "summary": "Recover an espense",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Expense"
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbiden",
+              "content": {
+                "application/json": {
+                  "example": "Forbiden"
+                }
+              }
+            },
+            "404": {
+              "description": "Expense not found",
+              "content": {
+                "application/json": {
+                  "example": "Not found"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "auth": []
+            }
+          ],
+          "tags": [
+            "Expenses"
+          ]
+        },
+        "put": {
+          "summary": "Update an expense",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Expense"
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbiden",
+              "content": {
+                "application/json": {
+                  "example": "Forbiden"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "auth": []
+            }
+          ],
+          "tags": [
+            "Expenses"
+          ]
+        },
+        "delete": {
+          "summary": "Remove an espense",
+          "responses": {
+            "204": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "example": "No content"
+                }
+              }
+            },
+            "403": {
+              "description": "Forbiden",
+              "content": {
+                "application/json": {
+                  "example": "Forbiden"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "auth": []
+            }
+          ],
+          "tags": [
+            "Expenses"
+          ]
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Expense": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "user_id": {
+              "type": "integer"
+            },
+            "description": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string",
+              "format": "date"
+            },
+            "value": {
+              "type": "number",
+              "format": "float"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "Expenses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Expense"
+          }
+        }
+      },
+      "securitySchemes": {
+        "auth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      }
+    },
+    "tags": [
+      {
+        "name": "Login",
+        "description": "Endpoint to make login"
+      },
+      {
+        "name": "Expenses",
+        "description": "Endponits to manage Expesnses"
+      }
+    ]
+  }

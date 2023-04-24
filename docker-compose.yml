@@ -62,3 +62,16 @@ services:
       - ./.data:/var/lib/mysql
     networks:
       - db-lan
+  
+  # Servidor de documentação com Swagger
+  doc:
+    image: swaggerapi/swagger-ui
+    container_name: doc
+    restart: unless-stopped
+    environment:
+      SWAGGER_JSON: /api/v0/swagger.json
+    ports:
+      - 8081:8080
+    volumes:
+      - ./docker/doc/swagger.json:/api/v0/swagger.json
+
