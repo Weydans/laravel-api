@@ -66,7 +66,12 @@ __(nunca exponha esses dados em produção)__
 mysql -u onflyuser -ponflypass
 ```
 
-- Estamos no terminal do mysql, agora crie um usuário
+- Estamos no terminal do mysql, mude o apontamento da base de dados para a configurada na aplicação (insira o nome do seu banco depois do `use` caso tenha configurado o banco com outro nome)
+```
+use laravelonfly;
+```
+
+- Crie um usuário
 
 __(a hash abaixo é da senha `123`. Nunca exponha suas senhas)__
 ```
