@@ -91,7 +91,7 @@ exit
 
 ## Acesso
 
-A aplicação pode ser acessada por qualquer cliente de API pelas rotas:
+O acesso pose ser realizado via documentação do Swagger que roda na url `http://localhost:8081/`, para acessar clique [aqui](http://localhost:8081/). A aplicação também pode ser acessada por qualquer outro cliente de API pelas rotas:
 
 `URI: http://localhost:8080/api/v0`
 
