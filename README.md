@@ -46,8 +46,6 @@ sudo make build
 sudo make
 ```
 
-- Acesse o sistema pelo navegador clicando [aqui](http://localhost:8080) ou abra o browser e insira a seguinte url `http://localhost:8080`.
-
 
 
 ## Parar Execução
