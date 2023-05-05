@@ -28,6 +28,10 @@
             "content": {
               "application/json": {
                 "schema": {
+				  "required": [
+				    "email",
+					"password"
+				  ], 
                   "type": "object",
                   "properties": {
                     "email": {
@@ -50,22 +54,33 @@
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "token": {
-                        "type": "string"
-                      }
+					  					"data": {
+												"type": "object",
+												"properties": {
+						  						"user": {
+														"$ref": "#components/schemas/user"
+						  						},
+						  						"plainTextToken": {
+						    						"type": "string",
+														"example": "1|NQ4n8orGgQT8batMpFkRfyquJM1mcyZTfcx71234"
+						  						}
+												}
+					  					}
                     }
                   }
                 }
               }
             },
-            "401": {
-              "description": "Unauthorized",
-              "content": {
-                "application/json": {
-                  "example": "Authentication failed"
-                }
-              }
-            }
+						"421": {
+							"description": "Unprocessable",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#components/schemas/error_validation_response"
+									}
+								}
+							}
+						}
           },
           "tags": [
             "Login"
@@ -314,7 +329,60 @@
           "items": {
             "$ref": "#/components/schemas/Expense"
           }
-        }
+        },
+				"user": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "integer",
+							"example": 143
+						},
+						"name": {
+							"type": "string",
+							"example": "Airton Sena"
+						},
+						"email": {
+							"type": "string",
+							"example": "airton@email.com"
+						},
+						"created_at": {
+							"type": "string",
+							"example": "2023-05-02T21:18:24.000000Z"
+						},
+						"updated_at": {
+							"type": "string",
+							"example": "2023-05-02T21:18:24.000000Z"
+						}
+					}
+				},
+				"error_validation_response": {
+					"type": "object",
+					"properties": {
+						"message": {
+							"type": "string"
+						},
+						"errors": {
+							"type": "object",
+							"properties": {
+								"field_1": {
+									"type": "array",
+									"example": ["Mensagem um", "Mensagem dois"]
+								},"field_2": {
+									"type": "array",
+									"example": ["Mensagem um", "Mensagem dois"]
+								}
+							}
+						}
+					}
+				},
+				"unauthorized": {
+					"type": "object",
+					"properties": {
+						"message": {
+							"type": "string"
+						}
+					}
+				}
       },
       "securitySchemes": {
         "auth": {
