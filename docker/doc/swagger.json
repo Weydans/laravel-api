@@ -28,10 +28,10 @@
             "content": {
               "application/json": {
                 "schema": {
-				  "required": [
-				    "email",
-					"password"
-				  ], 
+								  "required": [
+				  				  "email",
+										"password"
+				  				], 
                   "type": "object",
                   "properties": {
                     "email": {
@@ -87,6 +87,87 @@
           ]
         }
       },
+			"/users": {
+				"post": {
+          "tags": [
+            "Users"
+          ],
+					"summary": "Register new user",
+					"security": [
+						{
+							"auth": []
+						}
+					],
+					"requestBody": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"required": [
+										"name",
+										"email",
+										"password"
+									],
+									"type": "object",
+									"properties": {
+										"name": {
+											"type": "string"
+										},
+										"email": {
+											"type": "string"
+										},
+										"password": {
+											"type": "string",
+											"format": "password"
+										}
+									}	
+								}
+							}
+						}
+					},
+					"responses": {
+						"200": {
+							"description": "Success",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"data": {
+												"type": "object",
+												"properties": { 
+													"user": {
+														"$ref": "#components/schemas/user"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"401": {
+							"description": "Unauthorized",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#components/schemas/unauthorized"
+									}
+								}
+							}
+						},
+						"422": {
+							"description": "Unprocessable",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#components/schemas/error_validation_response"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
       "/expenses": {
         "get": {
           "summary": "Recover all expenses related to the current user",
@@ -395,6 +476,10 @@
       {
         "name": "Login",
         "description": "Endpoint to make login"
+      },
+      {
+        "name": "Users",
+        "description": "Endponits to manage Users"
       },
       {
         "name": "Expenses",
